@@ -6,8 +6,8 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(True, False)  # add assertion here
 
     def test_connect(self):
-        from db import utils
-        utils.show_tables()
+        from db import dbUtils
+        dbUtils.show_tables()
 
 if __name__ == '__main__':
     unittest.main()
