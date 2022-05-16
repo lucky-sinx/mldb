@@ -44,7 +44,7 @@ class Task(BaseModel):
     create_time = DateTimeField()
 
 
-class TaskLog(BaseModel):
+class Task_log(BaseModel):
     id = AutoField()
     task_id = BigIntegerField()
     generate_model_id = BigIntegerField()

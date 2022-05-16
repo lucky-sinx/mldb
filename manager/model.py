@@ -6,7 +6,6 @@ import joblib
 from sklearn import datasets
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from db import dbUtils
 
 ModelTypeToModel = {
     "LogisticRegression": LogisticRegression
@@ -41,7 +40,7 @@ class ModelBase:
             self.model_name = self.model_type
 
         joblib.dump(self.model, self.model_path)
-        dbUtils.save_model(self.model, self.model_name, self.model_path, self.model_type, self.param, score)
+        # dbUtils.save_model(self.model, self.model_name, self.model_path, self.model_type, self.param, score)
 
 
 def run_logistic_regression(X, y, param: dict, model_name=None, model_path=None):
