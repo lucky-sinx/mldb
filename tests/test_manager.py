@@ -16,10 +16,10 @@ class MyTestCase(unittest.TestCase):
         }
         # models.run_logistic_regression(X, Y, param)
 
-    def test_task(self):
+    def test_taskflow(self):
         from manager.task import TaskFlow
         task_flow = TaskFlow(1)
-        task_flow.run()
+        task_flow.run_task()
 
     def test_load_iris(self):
         from manager.load_data import load_csv_data

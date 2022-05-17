@@ -32,7 +32,7 @@ class Model(BaseModel):
 
     @staticmethod
     def add_model(model_name, model_type, model_path, algorithm_param):
-        Model.create(model_name=model_name, model_path=model_path, model_type=model_type,
+        return Model.create(model_name=model_name, model_path=model_path, model_type=model_type,
                      create_time=datetime.datetime.now(), algorithm_param=algorithm_param)
 
 

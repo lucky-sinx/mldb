@@ -65,6 +65,10 @@ class MyTestCase(unittest.TestCase):
             DataSet.add_dataset(file_name.split('.')[0], os.path.join(data_path, file_name),
                                 "test dataset:" + file_name)
 
+    def test_log(self):
+        from db import Task_log
+        Task_log.delete().execute()
+
 
 if __name__ == '__main__':
     unittest.main()
