@@ -18,7 +18,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_taskflow(self):
         from manager.task import TaskFlow
-        task_flow = TaskFlow(1)
+        task_flow = TaskFlow(10)
         task_flow.run_task()
 
     def test_load_iris(self):

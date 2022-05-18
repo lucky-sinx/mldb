@@ -50,9 +50,9 @@ class MyTestCase(unittest.TestCase):
     def test_task(self):
         from db import Task
         query = {
-            "task_name": "task1",
-            "task_description": "test",
-            "path": "F:\code\python\mldb\\temp\\task\\1.json",
+            "task_name": "taskMLP",
+            "task_description": "test_iris",
+            "path": "F:\code\python\mldb\\temp\\task\\task_MLP.json",
             "create_time": datetime.datetime.now()
         }
         # Task.delete().execute()

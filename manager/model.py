@@ -5,14 +5,20 @@ import uuid
 import joblib
 from sklearn import datasets
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn import neighbors
+from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 
-ModelTypeToModel = {
-    "LogisticRegression": LogisticRegression
+ClassifyModelTypeToModel = {
+    "LogisticRegression": LogisticRegression,
+    "SVM": SVC,
+    "KNN": neighbors.KNeighborsClassifier,
+    "MLP": MLPClassifier
 }
 
 
-class ModelBase:
+class ClassifyModelBase:
     def __init__(self, model_type, param=None, model_path=None, model_name=None):
         self.model_type = model_type
         self.param = param
@@ -21,11 +27,11 @@ class ModelBase:
         self.model = None
         self.score = -1
 
-        if model_type in ModelTypeToModel:
+        if model_type in ClassifyModelTypeToModel:
             if param is None:
-                self.model = ModelTypeToModel[model_type]()
+                self.model = ClassifyModelTypeToModel[model_type]()
             else:
-                self.model = ModelTypeToModel[model_type](**param)
+                self.model = ClassifyModelTypeToModel[model_type](**param)
 
     def train(self, data, label):
         x_train, x_test, y_train, y_test = train_test_split(data, label, test_size=0.3, random_state=42)
@@ -47,5 +53,5 @@ class ModelBase:
 
 
 def run_logistic_regression(X, y, param: dict, model_name=None, model_path=None):
-    model = ModelBase("LogisticRegression", param, model_name, model_path)
+    model = ClassifyModelBase("LogisticRegression", param, model_name, model_path)
     model.train(X, y)

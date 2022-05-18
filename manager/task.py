@@ -2,9 +2,9 @@ import datetime
 import json
 
 from db import Task, Task_log, DataSet, Model
-from .load_data import load_csv_data
 from .data_preprocessing import feature_filter
-from .model import ModelBase
+from .model import ClassifyModelBase
+from .node import NodeStrategyFactory
 
 
 class TaskFlow:
@@ -39,25 +39,13 @@ class TaskFlow:
 
         # 首先向task_log表插入一条日志
         task_log = Task_log.create(**query)
-        data_set, model = None, None
-        for node in task:
-            if node["type"] == "data_load":
-                # 根据id获取dataset path
-                dataset_info = DataSet.get_by_id(node["data_id"])
-                x, y, _ = load_csv_data(dataset_info.path)
-                data_set = [x, y]
-            if node["type"] == "data_preprocessing":
-                for process in node["process"]:
-                    if process["type"] == "feature select":
-                        data_set[0] = feature_filter(data_set[0], process["features"])
-            if node["type"] == "model train":
-                model_info = node["model"]
-                model = ModelBase(model_info["name"], model_info["param"])
-                model.train(*data_set)
-            if node["type"] == "model save":
-                model.save()
-                model_id = Model.add_model(model.model_name, model.model_type, model.model_path, model.param).id
+        result_dict = {}
+        for node_info in task:
+            node_cls = NodeStrategyFactory.get_strategy_by_type(node_info["type"])
+            node = node_cls(node_info, result_dict)
+            node.execute()
+
         task_log.end_time = datetime.datetime.now()
-        task_log.generate_model_id = model_id
-        task_log.result = str(model.score)
+        task_log.generate_model_id = result_dict["model_id"]
+        task_log.result = str(result_dict["model"].score)
         task_log.save()
